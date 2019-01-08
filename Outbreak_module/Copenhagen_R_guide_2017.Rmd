@@ -96,9 +96,11 @@ The easiest way to work with R is using RStudio 'projects'. RStudio is a graphic
 ###Setting your working directory 
 Just as in STATA you can set a folder to be your working directory (using the setwd() command). Open the project that you've created and you will see that the working directory is the same as folder itself: you can check this by calling getwd().You can see what's in your working directory by looking at the **Files tab** (by default in the bottom right area of the screen). If you want to set your working directory you use the function setwd("C:/Users/yourname/Desktop/Copenhagen"). Note that R paths use forward slashes "/", while windows paths use back slashes "\\"  so if you copy a path from windows you have to change them manually.
 
+
 ```{r, eval=F}
 getwd()
 ```
+
 
 ###Installing packages and functions
 
@@ -107,6 +109,7 @@ R packages are bundles of functions which extend the capability of R. Thousands 
 We will mainly use packages which come ready installed with R (base code), but where it makes things easier we will use add-on packages. In addition, we have included a few extra functions to simplify the code required. 
 
 Run the following code at the beginning of the day to make sure that you have made available all the packages and functions that you need. Be sure to include it in any scripts too.
+
 
 ```{r, echo = TRUE, results='hide', message=FALSE, warning=FALSE}
 # Loading required packages
@@ -119,11 +122,14 @@ library(epiR)
 library(epitools)
 ```
 
+
 Note:  This code assumes the packages are already installed. You only need to install a package once. If this code does not work, try installing the packages using the code below.
+
 
 ```{r, eval = F}
 install.packages("package name in quotation makrs")
 ```
+
 
 R and Stata have minor differences in default settings and methods. In this document we will follow the Stata analysis as closely as possible, but small and usually unimportant differences may be noted between the statistical findings in R and those in Stata. At some points additional steps (which would usually be optional in R) will be taken to produce output which is comparable to that of Stata.
 
