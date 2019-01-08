@@ -2,5 +2,5 @@
 
 * [Initial page](README.md)
 
-* [Outbreak module]("Outbreak module/Copenhagen_R_guide_2017.Rmd")
+* [Outbreak module](Outbreak_module/Copenhagen_R_guide_2017.Rmd)
 
