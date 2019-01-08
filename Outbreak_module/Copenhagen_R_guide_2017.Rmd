@@ -1,16 +1,13 @@
 ---
-title: Outbreak of gastroenteritis after a high school dinner in Copenhagen, Denmark, November
-  2006
+title: "Outbreak of gastroenteritis after a high school dinner in Copenhagen, Denmark, November 2006""
 author: "Alexander Spina and Patrick Keating"
-output:
-  html_document: 
-      toc: yes
-      toc_float:
-        collapsed: no
-        smooth_scroll: yes
-  pdf_document: default
-  word_document: default
-geometry: margin=1.5cm
+output: bookdown::gitbook
+documentclass: book
+bibliograpjy: [book.bib, packages.bib]
+biblio-style: apaline
+link-citations: yes
+github-repo: PBBlomquist/EpiModules/Outbreak_module
+description: "A trial of gitbook"
 ---
 The following code has been adapted to *R* for learning purposes. The initial contributors and copyright license are listed below. All copyrights and licenses of the original document apply here as well. 
 
