@@ -5,4 +5,4 @@
 * [Getting started in R](Getting_started.Rmd)
 
 * [Case study - Copenhagen outbreak](Outbreak_module/Copenhagen_R_guide_2017.Rmd)
-    * <a href="https://github.com/downloads/PBBlomquist/EpiModules/blob/master/Outbreak_module/Copenhagen_files.zip?raw=true" download="Copenhagen_files.zip" target="_blank"> Copenhagen case study files a>
+    * <a href="https://github.com/downloads/PBBlomquist/EpiModules/blob/master/Outbreak_module/Copenhagen_files.zip?raw=true" download="Copenhagen_files.zip" target="_blank"> Copenhagen case study files </a>
