@@ -98,7 +98,7 @@ The easiest way to work with R is using RStudio 'projects'. RStudio is a graphic
 Just as in STATA you can set a folder to be your working directory (using the setwd() command). Open the project that you've created and you will see that the working directory is the same as folder itself: you can check this by calling getwd().You can see what's in your working directory by looking at the **Files tab** (by default in the bottom right area of the screen). If you want to set your working directory you use the function setwd("C:/Users/yourname/Desktop/Copenhagen"). Note that R paths use forward slashes "/", while windows paths use back slashes "\\"  so if you copy a path from windows you have to change them manually.
 
 
-```
+```r
 getwd()
 ```
 
@@ -112,7 +112,7 @@ We will mainly use packages which come ready installed with R (base code), but w
 Run the following code at the beginning of the day to make sure that you have made available all the packages and functions that you need. Be sure to include it in any scripts too.
 
 
-```
+```r
 # Loading required packages
 
 library(ggplot2)
@@ -281,7 +281,7 @@ table(cph$starthour, exclude = NULL)
 ```
 
 
-```
+```r
 #people did not have dinner but ate tuna, bread or veal
   #you can label the table with deparse.level
 table(cph$meal, cph$tuna, deparse.level = 2)
@@ -289,7 +289,7 @@ table(cph$meal, cph$bread, deparse.level = 2)
 table(cph$meal, cph$veal, deparse.level = 2)
 ```
 
-```
+```r
 #people with day of onset but no symptoms
   #is.na() returns True/False if value is missing
   #So this selects the participants that are either 0 or missing for all three symptoms
@@ -306,14 +306,14 @@ table(cph$dayonset[(cph$diarrhoea != 1 | is.na(cph$diarrhoea)) &
 ###Recoding missing values, age and sex 
 
 
-```
+```r
 #correct mistakes in age
 cph$age[cph$age == 8] <- 18
 cph$age[cph$age == 180] <- 18
 cph$age[cph$age == 16 & cph$group == 0] <- 61
 ```
 
-```
+```r
 #Correct mistake regarding onset date or a start hour
   #Those who have no symptoms should also not have an onset date
   #So this is selecting those that are 0 or empty for each of the three symptoms
@@ -326,7 +326,7 @@ cph$starthour[(cph$diarrhoea == 0 | is.na(cph$diarrhoea)) &
                      (cph$bloody == 0 | is.na(cph$bloody))) ] <-  NA
 ```
 
-```
+```r
 #re-code sex in to binary
 cph$sex <- ifelse(cph$sex == "male", 1, 0)
 cph$sex <- as.numeric(cph$sex)
