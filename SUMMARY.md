@@ -2,6 +2,8 @@
 
 * [Welcome](README.md)
 
+* [Copyright and licensing](LICENSE.Rmd)
+
 * [Getting started in R](Getting_started.Rmd)
 
 * [Case study - Copenhagen outbreak](Outbreak_module/Copenhagen_R_guide_2017.Rmd)
