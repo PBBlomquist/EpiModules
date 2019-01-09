@@ -75,8 +75,6 @@ In the study, the following **case definition** was used: a case is a person fro
 
 
 
-\pagebreak
-
 #An introduction to the R companion#
 
 “To understand computations in R, two slogans are helpful:
@@ -129,7 +127,7 @@ library(epitools)
 Note:  This code assumes the packages are already installed. You only need to install a package once. If this code does not work, try installing the packages using the code below.
 
 
-```{r, eval = F}
+```
 install.packages("package name in quotation makrs")
 ```
 
@@ -138,7 +136,7 @@ R and Stata have minor differences in default settings and methods. In this docu
 
 The code below will run two scripts that contain useful user-written functions. These scripts need to be present in your working directory. The epicurve function allows creation of easily formatted epicurves. To find out more about the function, first load it as above and then click on function in the **Global Environment** tab on the right of the R Studio window. The **single variable analysis** function allows calculation of attack rates of multiple variables at one time and provides similar output to the cctable and cstable commands in Stata.
 
-```{r}
+```
 #These scripts need to be present in your working directory
 
 # Adds a function to create epicurves
@@ -149,11 +147,8 @@ source("single.variable.analysis.v0.2.R")
 ```
 
 
-\pagebreak 
-
-
 #Data management and *R scripts*
-##preparing the script
+##Preparing the script
 
 
 ###Reading in datasets
@@ -164,7 +159,7 @@ Datasets in *R* are stored and can be referred to using the name it is saved as 
 R can hold one or many data sets in memory simultaneously, so there is usually no need to save intermediate files or close and re-open datasets.
 
 
-```{r message=FALSE, warning=FALSE}
+```
 #read in your data from a csv file 
 #Select separator as comma (sep=",")
 #do not import 'string' variables as 'Factors' (stringsAsFactors=FALSE) 
@@ -177,12 +172,12 @@ cph <- read.csv("Copenhagen_raw.csv", sep=",", stringsAsFactors = FALSE)
 ###Browsing your dataset 
 *R studio* has the nice feature that everything is in one browser window, so you can browse your dataset and your code without having to switch between browser windows. 
 
-```{r, eval=F}
+```
 #to browse your data, use the View command
 View(cph)
 ```
 
-```{r}
+```
 #To see the dimensions (number of rows and columns) of your dataset, use dim()
 dim(cph)
 ```
@@ -203,17 +198,17 @@ If you click on the code in the History tab, it will re-run.
 ### Describing your dataset 
 You can view the structure of your data set using the following commands. Each of these commands can be run for individual variables also. 
 
-```{r, eval=F}
+```
 # str provides an overview of the number of observations and variable types
 str(cph)
 ```
 
-```{r, eval=F}
+```
 # summary provides information of variable class as well as extra details for numeric variables
 summary(cph)
 ```
 
-```{r, eval = F}
+```
 # describe (from Hmisc package) provides no. of observations, missing values, unique levels of each variable
 describe(cph)
 ```
@@ -246,7 +241,7 @@ New variables are easily created in R simply by using the $ sign after the datas
 The table() function will create a frequency table.
 
 
-```{r}
+```
 #class() tells you what kind of object it is
 
 class(cph)
@@ -256,38 +251,37 @@ class(cph$age)
 #Note that age is already a numeric variable which is correct
 ```
 
-```{r}
+```
 #table will give a very basic frequency table (counts), 
 #in this example the first line of the output is the age and the second is the frequency.
 table(cph$age)
 ```
 
-```{r}
+```
 #summary gives you more detailed statistics as in stata
 summary(cph$age)
 ```
 
 
-\pagebreak 
 
-```{r}
+```
 #You can look at age among teachers using the group variable
 table(cph$age[cph$group == 0])
 ##One teacher is too young! you wouldn't have noticed that without looking at the teacher separately!
 ```
 
-```{r}
+```
 #You can look at age among pupils using the group variable
 table(cph$age[cph$group == 1])
 ```
 
-```{r}
+```
 #You can look at time people started becoming ill 
 table(cph$starthour, exclude = NULL)
 ```
 
 
-```{r}
+```
 #people did not have dinner but ate tuna, bread or veal
   #you can label the table with deparse.level
 table(cph$meal, cph$tuna, deparse.level = 2)
@@ -295,7 +289,7 @@ table(cph$meal, cph$bread, deparse.level = 2)
 table(cph$meal, cph$veal, deparse.level = 2)
 ```
 
-```{r}
+```
 #people with day of onset but no symptoms
   #is.na() returns True/False if value is missing
   #So this selects the participants that are either 0 or missing for all three symptoms
@@ -306,21 +300,20 @@ table(cph$dayonset[(cph$diarrhoea != 1 | is.na(cph$diarrhoea)) &
 
 
 
-\pagebreak
 
 ##Data cleaning 
 
 ###Recoding missing values, age and sex 
 
 
-```{r}
+```
 #correct mistakes in age
 cph$age[cph$age == 8] <- 18
 cph$age[cph$age == 180] <- 18
 cph$age[cph$age == 16 & cph$group == 0] <- 61
 ```
 
-```{r}
+```
 #Correct mistake regarding onset date or a start hour
   #Those who have no symptoms should also not have an onset date
   #So this is selecting those that are 0 or empty for each of the three symptoms
@@ -333,7 +326,7 @@ cph$starthour[(cph$diarrhoea == 0 | is.na(cph$diarrhoea)) &
                      (cph$bloody == 0 | is.na(cph$bloody))) ] <-  NA
 ```
 
-```{r}
+```
 #re-code sex in to binary
 cph$sex <- ifelse(cph$sex == "male", 1, 0)
 cph$sex <- as.numeric(cph$sex)
@@ -345,7 +338,7 @@ cph$sex <- as.numeric(cph$sex)
 Remember, in order to combine multiple filtering commands in to one selection you can use the "|" (bar not capital i) or "&" symbols. The **|** stands for **or** whereas the **&** stands for **and**. 
 
 
-```{r}
+```
 
 #create new variable where people who have diarrhoea or vomiting get a 1 and all others a 0
 
@@ -370,7 +363,7 @@ cph$case[is.na(cph$meal) | cph$meal == 0] <- NA
 ```
 
 
-```{r}
+```
 #how many cases did you generate? 
 table(cph$case, exclude = NULL)
 
@@ -385,7 +378,7 @@ cph$case[(is.na(cph$vomiting) | is.na(cph$diarrhoea) | is.na(cph$bloody)) & cph$
 
 Do a plausibility check to see if everything worked
 
-```{r}
+```
 #how many cases did you generate? 
 table(cph$case, exclude = NULL)
 
@@ -400,7 +393,7 @@ For the anlysis sake, we exclude any people from the cohort who didn't eat at th
 
 Drop cases that do not meet the case definition 
 
-```{r}
+```
 cph <- cph[!is.na(cph$case), ]
 ```
 
@@ -412,7 +405,7 @@ cph <- cph[!is.na(cph$case), ]
 You can save your cleaned dataset as an R datafile (.Rda) using the *save* command and re-load the same dataset using the *load* command. 
 In reality you would never do this; your code should be stand-alone in that raw data is read and cleaned and analysis comes thereafter. 
 But if you wanted to, this is how you would do it. 
-```{r, eval= F}
+```
 
 #save your dataset
 save(cph, file = "cph.Rda")
@@ -425,17 +418,6 @@ load("cph.Rda")
 
 
 
-\pagebreak 
-
-
-
-
-
-
-
-
-
-
 
 
 ##Descriptive analysis in *R*
@@ -443,7 +425,7 @@ load("cph.Rda")
 If you haven't completed the previous section then you can load the following dataset for the next steps.
 
 
-```{r}
+```
 #read in your data from a csv file 
 #Select separator as comma (sep=",")
 #do not import 'string' variables as 'Factors' (stringsAsFactors=FALSE) 
@@ -466,7 +448,7 @@ The other is to use a *for-loop*, which repeats the procedure for each of the va
 
 The *cbind* function attaches columns of datasets together. 
 
-```{r}
+```
   # Version 1
 
 #create a frequency table diarrhoea among cases
@@ -483,9 +465,9 @@ print(b)
 #note the percentages here are column totals
 ```
 
-\pagebreak
 
-```{r}
+
+```
   #Version 2
 
 #define the variables which you would like to look at and save as "vars"
@@ -515,7 +497,7 @@ for (var in vars){
 ```
 
 ###Describe the cohort in terms of person 
-```{r}
+```
 #look at age and other variables of interest
 summary(cph$age)
 table(cph$age)
@@ -530,7 +512,7 @@ For example: cph[ , "age"] gives you the variable age as a vector, or cph[2:4 , 
 
 In this case, the for-loop will replace *var* with the variables of interest we have defined in *vars*. 
 
-```{r}
+```
 
 #students and sex
 vars <- c("group","class", "sex")
@@ -561,7 +543,7 @@ for (var in vars){
 
 The same can be done with just a single variable 
 
-```{r}
+```
 #total
 #create a basic table
   a <- table(cph$case)
@@ -585,7 +567,7 @@ The same can be done with just a single variable
 To see how to combine this code to create a ready-to-present table for exporting see the appendix. 
 
 
-\pagebreak 
+
 
 
 
@@ -610,20 +592,20 @@ To see how to combine this code to create a ready-to-present table for exporting
 ###Recoding for date compatability 
 To generate an epicurve, you need to generate a variable for the date of symptom onset which is IN TIME FORMAT. The current variable dayonset is in character format.
 
-```{r}
+```
 class(cph$dayonset)
 ```
 
 Fortunately dates are easy to manipulate using the lubridate package, from Hadley Wickham's 'tidyverse'. There are a variety of functions for parsing dates by specifying the order in which the date components appear, for example dmy() for day-month-year, or ymd() for year-month-day. Note that some functions share names with others so you may have to specify the package you want by using double colon "package::function"
 
-```{r}
+```
 cph$dayonset <- lubridate::dmy(cph$dayonset)
 
 class(cph$dayonset)
 ```
 
 
-```{r}
+```
 #We only want an onset date for cases though!
 cph$dayonset[cph$case != 1] <- NA
 ```
@@ -637,7 +619,7 @@ The epicurve function allows creation of easily formatted epicurves. To find out
 This function uses the gpplot package (use ??ggplot2 to find out more about this package) and so is quite easily manipulated and saved after being created.
 
 
-```{r, warning = FALSE}
+```
 epicurveday <- epicurve(cph, date.col = "dayonset", time.period = "day",
                 start.at = "2006-11-10", stop.at = "2006-11-15",
                 xlab = "Date of symptom onset", ylab = "Count",
@@ -663,7 +645,7 @@ epicurveday
 ###Incubation period in hours
 We need to create a variable which stores the time of dinner. We can achive this using another lubridate function, hours().
 
-```{r}
+```
 
 cph$datedinner <- dmy(111106)
 cph$datetimedinner <- cph$datedinner + hours(18)
@@ -671,17 +653,17 @@ cph$datetimedinner <- cph$datedinner + hours(18)
 
 To calculate the length of the incubation periods, we need to compare the time of dinner with the time of onset. 
 
-```{r}
+```
 cph$datetimeonset <- cph$dayonset + hours(cph$starthour)
 ```
 
-```{r}
+```
 cph$incubation <- cph$datetimeonset - cph$datetimedinner
 ```
 
 Now we can look at the distribution of incubation times visually.
 
-```{r}
+```
 ggplot(cph[!is.na(cph$incubation),]) + geom_histogram(aes(x = incubation), binwidth = 6) + scale_x_continuous()
 ```
 
@@ -689,7 +671,7 @@ ggplot(cph[!is.na(cph$incubation),]) + geom_histogram(aes(x = incubation), binwi
 
 We can construct a more refined epicurve using the datetimeonset variable
 
-```{r, tidy= T}
+```
 
 #As a workaround to use the user written epicurve function we can create a factor variable based on datetimeonset and define the order of the levels. 
 
@@ -710,7 +692,7 @@ cph$timeonsetfactor <- factor(as.character(cph$datetimeonset), levels = c(
 Using the epicurve function it is possible to choose what breakdown you would like on your time-axis by setting time.period to be "use.date.col.as.is". 
 
 
-```{r}
+```
 
 hourlycurve <- epicurve(cph[!is.na(cph$timeonsetfactor),], date.col = "timeonsetfactor", time.period = "use.date.col.as.is",
                        xlab = "Date and time of symptom onset", ylab = "Count",
@@ -721,7 +703,7 @@ hourlycurve
 
 ```
 
-\pagebreak
+
 
 
 
@@ -750,7 +732,7 @@ To identify (the) potential vehicle(s) in the outbreak, proceed with an analytic
 If you haven't completed the previous section then you can load the following dataset for the next steps.
 
 
-```{r}
+```
 #read in your data from a csv file 
 #Select separator as comma (sep=",")
 #do not import 'string' variables as 'Factors' (stringsAsFactors=FALSE) 
@@ -776,7 +758,7 @@ In order to use the epi.2by2 function, we first need to convert the outcome and 
 
 Outcome and exposure variables of interest need to be factor variables prior to using the function, in order to be relevelled from (0,1) to (1,0) so that they can be correctly organised in 2-by-2 tables.
 
-```{r}
+```
 # We list the outcome/exposure variables
 vars <- c("shrimps", "veal", "pasta", "sauce", "champagne", "rocket", "case")
 
@@ -797,7 +779,7 @@ You can do that first for looking at the risk for being a case by exposure to sh
 \pagebreak
 
 
-```{r}
+```
 # Create a table with exposure and outcome variables
 counts <- table(cph$shrimps, cph$case)
 
@@ -815,7 +797,7 @@ This example involves using the *epi.2by2* function from the *epiR* package. To 
 With extra code you could extract information from epi.2by and piece together an output table like in STATA.
 Here we have just chosen to show this in the console (extraction will be shown later in the case study).
 
-```{r, results="hide"}
+```
 
 ##vector of variables you want to run in the for-loop
 vars <- c("pasta","veal", "champagne", "sauce", "shrimps")
@@ -839,7 +821,7 @@ for (var in vars){
 
 
 
-\pagebreak
+
 
 
 ##Simplified output (method 2)
@@ -847,7 +829,7 @@ for (var in vars){
 A much more straight forward way is to simply apply a user-written function which requires much less input from you. 
 The *sva* function (Daniel Gardner, PHE) basically integrates the steps from above to create a nice output table. 
 
-```{r}
+```
 #You already sourced the function at the begining of this case study 
 #if you havent then type: source("single.variable.analysis.v0.2.R")
 #nb. click on "sva" in your global environment to view source code and read explanations
@@ -872,7 +854,7 @@ Note that for the below tests, no tables are printed alongside, however you coul
 
 ##Is gender associated with being a case? 
 
-```{r}
+```
 
 #using a chi-squared test
   #chisq.test funciton requires you to input a table
@@ -891,7 +873,7 @@ fisher.test(table(cph$sex, cph$case))
 ## Is class associated with being a case?
 Here you can either compare proportions, using the chi-squared test, or use the Wilcoxon-Mann-Whitney test to compare distributions. 
 For the Wilcoxon-Mann-whitney test to work, all variables need to be numeric - however it is not possible to go directly from a factor to a numeric. The intermediate is to turn it in to a character and then to a numeric. 
-```{r}
+```
 
 #Using chi-squared
 chisq.test(table(cph$class, cph$case))
@@ -908,7 +890,7 @@ wilcox.test(cph$class, cph$case)
 ```
 
 ## Is there a difference between age in males and females? 
-```{r}
+```
 
 
 # Using a wilcox test
@@ -935,7 +917,7 @@ There is two possible ways to do this. The first is to use the wilcox.test again
 
 
 
-```{r}
+```
 
 
 vars <- c("vealD", "pastaD")
@@ -980,7 +962,7 @@ You can see that those eating pasta or veal as well as drinking champagne have t
 If you haven't completed the previous section then you can load the following dataset for the next steps.
 
 
-```{r}
+```
 #read in your data from a csv file 
 #Select separator as comma (sep=",")
 #do not import 'string' variables as 'Factors' (stringsAsFactors=FALSE) 
@@ -997,7 +979,7 @@ cph <- read.csv("Copenhagen_stratified.csv", sep=",", stringsAsFactors = FALSE)
 Make sure that your variables of interest are factors in the correct order. 
 Outcome and exposure variables of interest need to be factor variables prior to using the function, in order to be relevelled from (0,1) to (1,0) so that they can be correctly organised in 2-by-2 tables. (We have already done this for our variables)
 
-```{r}
+```
 # We list the outcome/exposure variables
 vars <- c("shrimps", "veal", "pasta", "sauce", "champagne", "rocket", "case")
 
@@ -1015,7 +997,7 @@ Stata users could use the csinter function to identify effect modifiers/confound
 The epi.2by2 function in the epiR package provides similar functionality. 
 
 
-```{r}
+```
 
 
 # Make a 3-way table with exposure of interest, the outcome and the stratifying variable, in that order
@@ -1033,7 +1015,7 @@ mhtable
 You can then extract various outputs from the epi2by2 table for piecing together your own output. 
 Here two levels of $-signs are needed, as the function saves outputs to a list. 
 
-```{r}
+```
 
 # Crude RR
 mhtable$massoc$RR.crude.wald 
@@ -1075,7 +1057,7 @@ You can then piece these parts together within a for loop to investigate more va
 
 
 
-```{r}
+```
 
 
 # We list the exposure variables
@@ -1111,7 +1093,7 @@ outputs # Gives crude, stratum-specific and adjusted RRs
 The exact same can be done for veal (switch veal and pasta)
 
 
-```{r, eval = F}
+```
 
 
 # We list the exposure variables
@@ -1149,7 +1131,7 @@ the outcome (being a case) and with the exposure. We know from univariable
 analysis that pasta is associated with being a case, we can now check if it is 
 also associated with veal.
 
-```{r}
+```
 #using a fisher's exact test
 
 fisher.test(table(cph$pasta, cph$veal))
@@ -1190,7 +1172,7 @@ This is easily done, if you have saved each of your analyses in a seperate scrip
 In *R* you can read datasets saved in STATA format (.dta), using a package called "foreign". 
 See *??read.dta* for details
 
-```{r, eval=F}
+```
 
 library(foreign)
 
@@ -1202,7 +1184,7 @@ cph <- read.dta("Copenhagen/Session 3/Copenhagen3.dta")
 For reading newer Stata versions (past 12), you can use readstata13 or the haven packages. 
 
 
-```{r, eval = F}
+```
  
 library(readstata13)
 cph <- read.dta13("Copenhagen/copenhagen_raw.dta")
@@ -1213,7 +1195,7 @@ cph <- read.dta13("Copenhagen/copenhagen_raw.dta")
 
 It is also possible to read in excel files using a package called "xlsx". 
 
-```{r, eval = F}
+```
 
 library(xlsx)
 
@@ -1231,7 +1213,7 @@ This section produces a full descriptive table and exports it to excel.
 This is just to illustrate that you can create tables however you would like to. 
 If you are feeling confident then take a look at the code - if not just skip it!
 
-```{r, eval=F}
+```
 
 a<-matrix(NA, ncol = 4, nrow = 8)
 
@@ -1281,7 +1263,7 @@ Note: several lines of code have been turned to comments (#png(...) and #dev.off
 
 
 
-```{r, tidy=T, eval = F}
+```
 #table to use in plotting 
 count<-table(cph$startdate)
 
@@ -1322,7 +1304,7 @@ mtext(text="Cases (n)",
 
 ##Creating time levels with coding rather than typing it out 
 
-```{r, eval = F}
+```
 
 a <- expand.grid(c("0","6","12", "18"), paste0("2006-11-", 10:14))
 
@@ -1343,7 +1325,7 @@ Here you need case to be a factor again.
 
 
 
-```{r}
+```
 
 #change case back to a factor 
 cph$case <- factor(cph$case,levels = c(1,0)) 
