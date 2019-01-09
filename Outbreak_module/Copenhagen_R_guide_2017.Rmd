@@ -53,8 +53,6 @@ With the understanding that:
 + Notice - For any reuse or distribution, you must make clear to others the license terms of this work by keeping together this work and the current license.
 This licence is based on http://creativecommons.org/licenses/by-sa/3.0/
 
-\pagebreak 
-
 
 #The Alert 
 
@@ -73,13 +71,20 @@ Symptomatic party attendees were asked to submit stool samples via their general
 
 In the study, the following **case definition** was used: a case is a person from the cohort, who presented with diarrhoea or vomiting within 48 hours of the meal. So anyone who presented with diarrhoea or vomiting from 6pm on November 11th to 5:59pm on November 13th was included as a case.  All other participants including anyone with symptoms outside this time window are defined as "not ill" (as they probably didn't become sick at the party).
 
+#Download the case study files
+
+Download the files needed for this case study here: <a href="https://github.com/PBBlomquist/EpiModules/blob/master/Outbreak_module/Copenhagen_files.zip?raw=true" download="Copenhagen_files.zip" target="_blank"> download Copenhagen_files.zip </a>
+
+Note that files for all case studies can also be downloaded directly from the menu bar to the left. 
+
+
 #Data management and *R scripts*
 ##Preparing the script
 
 
 ###Reading in datasets
 
-Download the dataset <a href="https://github.com/PBBlomquist/EpiModules/blob/master/Outbreak_module/Copenhagen_raw.csv" download="Copenhagen_raw.csv" target="_blank"> Copenhagen_raw.csv </a> using the *read_csv* command.  
+Read in the dataset Copenhagen_raw.csv, from the zip of case study files, using the *read_csv* command.  
 
 This dataset has been exported from the STATA *.dta* file and saved as a *.csv* file.  
 It is also possible to import datasets from other formats, such as excel or stata; see appendix for example. 
