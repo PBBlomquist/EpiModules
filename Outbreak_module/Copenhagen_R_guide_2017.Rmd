@@ -78,7 +78,9 @@ In the study, the following **case definition** was used: a case is a person fro
 
 
 ###Reading in datasets
-Open the data set **copenhagen_raw.csv** using the *read_csv* command.  
+
+Download the dataset <a href="https://github.com/PBBlomquist/EpiModules/blob/master/Outbreak_module/Copenhagen_raw.csv" download="Copenhagen_raw.csv" target="_blank"> Copenhagen_raw.csv </a> using the *read_csv* command.  
+
 This dataset has been exported from the STATA *.dta* file and saved as a *.csv* file.  
 It is also possible to import datasets from other formats, such as excel or stata; see appendix for example. 
 Datasets in *R* are stored and can be referred to using the name it is saved as (in our case "cph").
